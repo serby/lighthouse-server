@@ -26,7 +26,7 @@ const generate = async (url) => {
   const start = Date.now()
   const lighthouseCmd = `${__dirname}/node_modules/.bin/lighthouse --quiet --chrome-flags="--headless" --output-path=stdout ${url}`
   console.log(lighthouseCmd)
-  const { stdout, stderr } = await promisify(exec)('ls')
+  const { stdout, stderr } = await promisify(exec)(lighthouseCmd)
   if (stderr) console.error(stderr)
   console.log(`URL ${url} complete in ${Date.now() - start}ms`)
   return stdout
