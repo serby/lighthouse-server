@@ -42,13 +42,15 @@ app.get('/', keyCheck, async (req, res) => {
 })
 
 app.post('/netlify-hook', keyCheck, async (req, res) => {
-  if (!req.body['build_id']) return res.status(400).send('Missing build_id')
-  if (!req.body['deploy_ssl_url']) return res.status(400).send('Missing deploy_ssl_url')
+  const buildId = req.body['build_id']
+  const url = req.body['deploy_ssl_url']
+  if (!buildId) return res.status(400).send('Missing build_id')
+
+  if (!url) return res.status(400).send('Missing deploy_ssl_url')
   try {
     res.set('content-type', 'text/html')
-    cache(req.body['build_id'], async () => generate(req.body['deploy_ssl_url']))
-    const url = req.protocol + '://' + req.get('host') + req.originalUrl;
-    res.send(`${url}/cache/${req.body['build_id']}`)
+    cache(buildId, async () => generate(url))
+    res.send(`${req.protocol + '://' + req.get('host')}/cache/${buildId}`)
   } catch (e) {
     console.error(e)
     res.status(500).send(e)
