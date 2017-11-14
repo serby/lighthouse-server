@@ -75,6 +75,7 @@ const cache = async (id, fn) => {
     console.log('From cache', id)
     return data
   } catch (e) {
+    await promisify(fs.writeFile)(filename, 'Generating. Please wait...')
     const data = await fn()
     await promisify(fs.writeFile)(filename, data)
     return data
