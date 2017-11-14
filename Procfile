@@ -1,1 +1,1 @@
-web: node app.js
+web-lighthouse-server: node app.js
