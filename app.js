@@ -55,7 +55,7 @@ app.post('/netlify-hook', keyCheck, async (req, res) => {
   }
 })
 
-app.get('/cache/:id', keyCheck, async (req, res) => {
+app.get('/cache/:id', async (req, res) => {
   try {
     res.set('content-type', 'text/html')
     const filename = join(cachePath, req.params.id)
